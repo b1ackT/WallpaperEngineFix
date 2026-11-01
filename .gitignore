@@ -1,0 +1,26 @@
+# --- Steam workshop manifests (never commit these) ---
+appworkshop_*.acf
+appworkshop_backup_*.acf
+*.acf
+!*.example.acf
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# --- Editors / OS ---
+.vs/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Local test output ---
+*.log
