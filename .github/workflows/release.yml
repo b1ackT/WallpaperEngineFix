@@ -1,0 +1,37 @@
+name: Build Windows release
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: release-v1.1.0
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test and build standalone EXE
+        shell: pwsh
+        run: ./build_gui.ps1
+      - name: Package release
+        shell: pwsh
+        run: |
+          Copy-Item GUI.md,LICENSE dist
+          $exeHash = (Get-FileHash dist/WallpaperEngineFix.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$exeHash  WallpaperEngineFix.exe" | Set-Content dist/SHA256.txt -Encoding ascii
+          Compress-Archive -LiteralPath dist/WallpaperEngineFix.exe,dist/GUI.md,dist/LICENSE,dist/SHA256.txt -DestinationPath dist/WallpaperEngineFix-1.1.0-win64.zip
+          $zipHash = (Get-FileHash dist/WallpaperEngineFix-1.1.0-win64.zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$zipHash  WallpaperEngineFix-1.1.0-win64.zip" | Add-Content dist/SHA256.txt -Encoding ascii
+      - name: Publish tested release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v1.1.0 --target '${{ github.sha }}' --title 'v1.1.0 · Windows GUI 桌面版' --notes-file RELEASE_NOTES.md --draft dist/WallpaperEngineFix.exe dist/WallpaperEngineFix-1.1.0-win64.zip dist/SHA256.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Release upload failed; not publishing' }
+          gh release edit v1.1.0 --draft=false --latest
+          if ($LASTEXITCODE -ne 0) { throw 'Release publication failed' }
