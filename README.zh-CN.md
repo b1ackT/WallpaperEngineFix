@@ -1,5 +1,9 @@
 # WallpaperEngineFix
 
+**新增 Windows 图形界面**：双击 `dist/WallpaperEngineFix.exe`，无需安装 Python。
+源码可运行 `python wallpaper_gui.py`。[使用、备份恢复与打包说明](GUI.md)。
+GUI 仅补全本地缺失的安装记录，保留下载/更新标记，不验证模组完整性，也不修复游戏内验证。
+
 **修复损坏的 Steam 创意工坊清单，让 Steam 不再重复下载你已经有的内容。**
 
 [English →](README.md)

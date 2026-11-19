@@ -46,7 +46,7 @@ def _enable_ansi() -> None:
 def _supports_color() -> bool:
     if os.environ.get("NO_COLOR"):
         return False
-    if not sys.stdout.isatty():
+    if sys.stdout is None or not sys.stdout.isatty():
         return False
     return True
 

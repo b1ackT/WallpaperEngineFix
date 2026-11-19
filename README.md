@@ -1,5 +1,10 @@
 # WallpaperEngineFix
 
+**New: Windows GUI** — run `dist/WallpaperEngineFix.exe` without Python, or
+`python wallpaper_gui.py` from source. See [desktop usage and build instructions](GUI.md).
+The GUI conservatively adds missing local install records and preserves pending
+download/update flags. It does not verify addon integrity or fix in-game validation.
+
 **Repair a corrupted Steam Workshop manifest so Steam stops re-downloading content you already have.**
 
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](#requirements)
